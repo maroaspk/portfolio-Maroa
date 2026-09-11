@@ -15,7 +15,7 @@ export function ContactLinks({ animate = true }: { animate?: boolean }) {
       <motion.a
         href={`mailto:${profile.contact.email}`}
         className="inline-block text-2xl md:text-4xl break-all hover:opacity-70 transition-opacity"
-        style={{ color: "var(--hero-dark)", lineHeight: 1.2 }}
+        style={{ color: "var(--hero-cyan)", lineHeight: 1.2 }}
         initial={animate ? { opacity: 0, y: 20 } : false}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7, delay: 0.1, ease: EASE }}

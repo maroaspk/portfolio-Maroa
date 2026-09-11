@@ -170,7 +170,7 @@ export const profile = {
 export function getContactLinks(): SocialLink[] {
   return [
     { label: "Email", href: `mailto:${profile.contact.email}`, display: profile.contact.email },
-    { label: "LinkedIn", href: profile.contact.linkedin, display: "linkedin.com/in/maroa-gonzález-rosdevall" },
+    { label: "LinkedIn", href: profile.contact.linkedin, display: "See profile" },
     { label: "Phone", href: `tel:${profile.contact.phone.replace(/\s/g, "")}`, display: profile.contact.phone },
     ...profile.contact.socials,
   ];

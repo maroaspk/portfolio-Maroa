@@ -13,6 +13,7 @@ All colors MUST be HSL.
   --hero-paragraphs: #262524d9;
   --hero-border: #20201e4d;
   --hero-red: #9b2b34;
+  --hero-cyan: #3f9db1; /* pale cyan-blue used for the contact email */
   --background: hsl(0 0% 100%);
   --foreground: hsl(240 10% 3.9%);
   --card: hsl(0 0% 100%);
