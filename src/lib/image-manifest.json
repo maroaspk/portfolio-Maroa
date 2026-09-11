@@ -1,7 +1,8 @@
 {
   "/certificates/google-ai.jpg": [
     640,
-    1024
+    1024,
+    1123
   ],
   "/certificates/harvard-business-impact.jpg": [
     640,
@@ -15,15 +16,18 @@
   ],
   "/certificates/leadership.jpg": [
     640,
-    1024
+    1024,
+    1155
   ],
   "/certificates/storytelling-digital-marketing.jpg": [
     640,
-    1024
+    1024,
+    1144
   ],
   "/certificates/uic-health-promotion-day-award.jpg": [
     640,
-    1024
+    1024,
+    1242
   ],
   "/media/about.jpg": [
     640,
@@ -31,36 +35,45 @@
     1600
   ],
   "/projects/banco-sabadell-1.jpg": [
-    640
+    640,
+    800
   ],
   "/projects/banco-sabadell-2.jpg": [
-    640
+    640,
+    800
   ],
   "/projects/banco-sabadell-3.jpg": [
-    640
+    640,
+    800
   ],
   "/projects/banco-sabadell-4.jpg": [
-    640
+    640,
+    800
   ],
   "/projects/health-day-1.jpg": [
     640,
-    1024
+    1024,
+    1275
   ],
   "/projects/health-day-2.jpg": [
     640,
-    1024
+    1024,
+    1275
   ],
   "/projects/health-day-3.jpg": [
     640,
-    1024
+    1024,
+    1275
   ],
   "/projects/health-day-4.jpg": [
     640,
-    1024
+    1024,
+    1275
   ],
   "/projects/lindt.jpg": [
     640,
-    1024
+    1024,
+    1439
   ],
   "/projects/misako/misako-app.jpg": [
     640,
@@ -68,7 +81,8 @@
     1600
   ],
   "/projects/misako/misako-billboard.jpg": [
-    640
+    640,
+    901
   ],
   "/projects/misako/misako-brand-board.jpg": [
     640,
@@ -76,7 +90,8 @@
     1600
   ],
   "/projects/misako/misako-bus.jpg": [
-    640
+    640,
+    979
   ],
   "/projects/misako/misako-cover.jpg": [
     640,
@@ -100,7 +115,8 @@
   ],
   "/projects/misako/misako-invitation.jpg": [
     640,
-    1024
+    1024,
+    1481
   ],
   "/projects/misako/misako-popup.jpg": [
     640,
@@ -108,7 +124,8 @@
     1600
   ],
   "/projects/misako/misako-poster.jpg": [
-    640
+    640,
+    901
   ],
   "/projects/misako/misako-web.jpg": [
     640,
@@ -117,13 +134,15 @@
   ],
   "/projects/neutrogena.jpg": [
     640,
-    1024
+    1024,
+    1440
   ],
   "/projects/orbit.jpg": [
     640,
-    1024
+    1024,
+    1440
   ],
   "/projects/sabesdepubli.jpg": [
-    640
+    405
   ]
 }
