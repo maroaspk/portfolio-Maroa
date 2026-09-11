@@ -1,52 +1,55 @@
+import type { Localized } from "./i18n";
+
 /**
  * Certificates shown on the Certificates page (newest first).
  *
  * To add one: append an entry. Only `title` and `issuer` are required.
- *   - `date`  → free text, e.g. "December 2025"
+ *   - `date`  → free text, e.g. { en: "December 2025", es: "Diciembre 2025" }
  *   - `image` → thumbnail: put the file in /public/certificates and reference "/certificates/file.jpg"
  *   - `url`   → link to the certificate or a PDF in /public. Defaults to the image itself when omitted.
  *   - `featured` + `description` → shown as a highlighted award block at the top of the page
+ * Any text can be a plain string or `{ en, es }`.
  */
 
 export interface Certificate {
-  title: string;
-  issuer: string;
-  date?: string;
+  title: Localized;
+  issuer: Localized;
+  date?: Localized;
   image?: string;
   url?: string;
   featured?: boolean;
-  description?: string;
+  description?: Localized;
 }
 
 export const certificates: Certificate[] = [
   {
-    title: "Klaviyo Product Certificate",
+    title: { en: "Klaviyo Product Certificate", es: "Certificado Klaviyo Product" },
     issuer: "Klaviyo Academy",
-    date: "March 2026",
+    date: { en: "March 2026", es: "Marzo 2026" },
     image: "/certificates/klaviyo.jpg",
   },
   {
     title: "Santander Open Academy: Business for All Program",
     issuer: "Harvard Business Impact · Santander University",
-    date: "December 2025",
+    date: { en: "December 2025", es: "Diciembre 2025" },
     image: "/certificates/harvard-business-impact.jpg",
   },
   {
-    title: "Google: Artificial Intelligence and Productivity",
+    title: { en: "Google: Artificial Intelligence and Productivity", es: "Google: Inteligencia Artificial y productividad" },
     issuer: "Santander Open Academy · Google",
-    date: "January 2025",
+    date: { en: "January 2025", es: "Enero 2025" },
     image: "/certificates/google-ai.jpg",
   },
   {
-    title: "Leadership",
+    title: { en: "Leadership", es: "Liderazgo" },
     issuer: "Santander Open Academy",
-    date: "October 2024",
+    date: { en: "October 2024", es: "Octubre 2024" },
     image: "/certificates/leadership.jpg",
   },
   {
-    title: "Storytelling in Digital Marketing",
+    title: { en: "Storytelling in Digital Marketing", es: "Storytelling en el Marketing Digital" },
     issuer: "Santander Open Academy · The University of Chicago",
-    date: "October 2024",
+    date: { en: "October 2024", es: "Octubre 2024" },
     image: "/certificates/storytelling-digital-marketing.jpg",
   },
   {
@@ -54,13 +57,21 @@ export const certificates: Certificate[] = [
     issuer: "Cambridge English",
   },
   {
-    title: "Award for the best branding proposal · Health Promotion Day",
-    issuer: "Faculty of Communication Sciences · UIC Barcelona",
-    date: "November 2025",
+    title: {
+      en: "Award for the best branding proposal · Health Promotion Day",
+      es: "Premio a la mejor propuesta de branding · Jornada de Promoción de la Salud",
+    },
+    issuer: {
+      en: "Faculty of Communication Sciences · UIC Barcelona",
+      es: "Facultad de Ciencias de la Comunicación · UIC Barcelona",
+    },
+    date: { en: "November 2025", es: "Noviembre 2025" },
     image: "/certificates/uic-health-promotion-day-award.jpg",
     featured: true,
-    description:
-      "Selected by the teaching and professional jury for its excellence, creativity and strategic rigour, within the Brand Management and Strategy course. The branding will be used officially in future editions of the event.",
+    description: {
+      en: "Selected by the teaching and professional jury for its excellence, creativity and strategic rigour, within the Brand Management and Strategy course. The branding will be used officially in future editions of the event.",
+      es: "Seleccionado por el jurado docente y profesional por su excelencia, creatividad y rigor estratégico, en el marco de la asignatura Dirección y Estrategia de Marca. El branding se usará oficialmente en las próximas ediciones del evento.",
+    },
   },
 ];
 

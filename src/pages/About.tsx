@@ -5,6 +5,7 @@ import { FadeUp, Eyebrow, MediaOrPlaceholder, Rule } from "@/components/ui/edito
 import { profile } from "@/lib/profile";
 import { asset } from "@/lib/assets";
 import { PillLink } from "@/components/ui/pill-link";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Editorial CV row: small label on the left, content on the right.
@@ -29,7 +30,7 @@ function Entry({
   description,
   highlights,
 }: {
-  title: string;
+  title?: string;
   subtitle?: string;
   meta?: string;
   description?: string;
@@ -69,18 +70,13 @@ function Entry({
 }
 
 const About = () => {
+  const { t, L } = useI18n();
   return (
     <PageLayout>
       {/* Intro — same two-column composition as the template About page */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <MediaOrPlaceholder
-            src={profile.portrait}
-            alt={profile.name}
-            aspectRatio="2/3"
-            label="Portrait"
-            loading="eager"
-          />
+          <MediaOrPlaceholder src={profile.portrait} alt={profile.name} aspectRatio="2/3" label={t("about.portrait")} loading="eager" />
         </motion.div>
 
         <motion.div
@@ -89,7 +85,7 @@ const About = () => {
           transition={{ duration: 0.7, delay: 0.2 }}
           className="flex flex-col justify-center"
         >
-          <Eyebrow className="mb-6">About</Eyebrow>
+          <Eyebrow className="mb-6">{t("about.eyebrow")}</Eyebrow>
           <h1
             className="text-4xl md:text-5xl mb-8"
             style={{ fontFamily: "'Host Grotesk', sans-serif", color: "var(--hero-dark)", lineHeight: 1.15 }}
@@ -97,17 +93,17 @@ const About = () => {
             {profile.name}
           </h1>
           <p className="text-sm uppercase tracking-[2px] mb-8" style={{ opacity: 0.6 }}>
-            {profile.tagline}
+            {L(profile.tagline)}
           </p>
 
           <div className="flex flex-col gap-5 text-base leading-relaxed" style={{ maxWidth: 460 }}>
             {profile.intro.map((paragraph, i) => (
-              <p key={i}>{paragraph}</p>
+              <p key={i}>{L(paragraph)}</p>
             ))}
           </div>
 
           <div className="mt-10 text-sm">
-            <p className="mb-1">For collaborations and proposals:</p>
+            <p className="mb-1">{t("about.forCollab")}</p>
             <a
               href={`mailto:${profile.contact.email}`}
               className="underline hover:opacity-70 transition-opacity"
@@ -118,7 +114,7 @@ const About = () => {
             {profile.cv && (
               <div className="mt-8">
                 <PillLink href={asset(profile.cv)} external>
-                  Download CV
+                  {t("about.downloadCv")}
                 </PillLink>
               </div>
             )}
@@ -128,45 +124,45 @@ const About = () => {
 
       {/* CV — editorial sections */}
       <div className="mt-24 md:mt-32">
-        <CvSection label="Experience">
+        <CvSection label={t("about.experience")}>
           <div className="flex flex-col divide-y" style={{ borderColor: "var(--hero-border)" }}>
-            {profile.experience.map((e) => (
+            {profile.experience.map((e, i) => (
               <Entry
-                key={`${e.role}-${e.company}`}
-                title={e.role}
-                subtitle={[e.company, e.location].filter(Boolean).join(" · ") || undefined}
-                meta={e.period}
-                description={e.description}
+                key={i}
+                title={L(e.role)}
+                subtitle={[L(e.company), L(e.location)].filter(Boolean).join(" · ") || undefined}
+                meta={L(e.period)}
+                description={L(e.description)}
               />
             ))}
           </div>
         </CvSection>
 
-        <CvSection label="Education">
+        <CvSection label={t("about.education")}>
           <div className="flex flex-col divide-y" style={{ borderColor: "var(--hero-border)" }}>
-            {profile.education.map((e) => (
+            {profile.education.map((e, i) => (
               <Entry
-                key={e.title}
-                title={e.title}
-                subtitle={e.institution}
-                meta={e.period}
-                description={e.description}
-                highlights={e.highlights}
+                key={i}
+                title={L(e.title)}
+                subtitle={L(e.institution)}
+                meta={L(e.period)}
+                description={L(e.description)}
+                highlights={e.highlights?.map((h) => L(h) ?? "")}
               />
             ))}
           </div>
         </CvSection>
 
-        <CvSection label="Skills">
+        <CvSection label={t("about.skills")}>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
-            {profile.skills.map((group) => (
-              <div key={group.label}>
+            {profile.skills.map((group, gi) => (
+              <div key={gi}>
                 <p className="text-sm mb-4" style={{ color: "var(--hero-dark)" }}>
-                  {group.label}
+                  {L(group.label)}
                 </p>
                 <ul className="flex flex-col gap-2 text-sm leading-relaxed">
-                  {group.items.map((item) => (
-                    <li key={item}>{item}</li>
+                  {group.items.map((item, ii) => (
+                    <li key={ii}>{L(item)}</li>
                   ))}
                 </ul>
               </div>
@@ -174,17 +170,17 @@ const About = () => {
           </div>
         </CvSection>
 
-        <CvSection label="Languages">
+        <CvSection label={t("about.languages")}>
           <ul className="flex flex-col">
             {profile.languages.map((l, i) => (
               <li
-                key={l.name}
+                key={i}
                 className="flex items-baseline justify-between py-4 text-sm"
                 style={{ borderTop: i === 0 ? "none" : "1px solid var(--hero-border)" }}
               >
-                <span style={{ color: "var(--hero-dark)" }}>{l.name}</span>
+                <span style={{ color: "var(--hero-dark)" }}>{L(l.name)}</span>
                 <span className="text-xs uppercase tracking-[2px]" style={{ opacity: 0.55 }}>
-                  {l.level}
+                  {L(l.level)}
                 </span>
               </li>
             ))}
@@ -195,10 +191,10 @@ const About = () => {
           <Rule />
           <div className="pt-10 md:pt-14 flex flex-col sm:flex-row gap-6 sm:gap-12 text-sm">
             <Link to="/projects" className="underline hover:opacity-70 transition-opacity" style={{ color: "var(--hero-dark)" }}>
-              View projects
+              {t("about.viewProjects")}
             </Link>
             <Link to="/certificates" className="underline hover:opacity-70 transition-opacity" style={{ color: "var(--hero-dark)" }}>
-              View certificates
+              {t("about.viewCertificates")}
             </Link>
             {profile.cv && (
               <a
@@ -208,7 +204,7 @@ const About = () => {
                 className="underline hover:opacity-70 transition-opacity"
                 style={{ color: "var(--hero-dark)" }}
               >
-                Download CV
+                {t("about.downloadCv")}
               </a>
             )}
           </div>

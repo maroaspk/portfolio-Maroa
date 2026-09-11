@@ -1,14 +1,16 @@
 import { Link } from "react-router-dom";
 import { profile, getContactLinks } from "@/lib/profile";
+import { useI18n, type UIKey } from "@/lib/i18n";
 
-const FOOTER_NAV = [
-  { label: "About", to: "/about" },
-  { label: "Projects", to: "/projects" },
-  { label: "Certificates", to: "/certificates" },
-  { label: "Contact", to: "/contact" },
+const FOOTER_NAV: { key: UIKey; to: string }[] = [
+  { key: "nav.about", to: "/about" },
+  { key: "nav.projects", to: "/projects" },
+  { key: "nav.certificates", to: "/certificates" },
+  { key: "nav.contact", to: "/contact" },
 ];
 
 export function SiteFooter() {
+  const { t, L } = useI18n();
   const links = getContactLinks();
   return (
     <footer
@@ -22,7 +24,7 @@ export function SiteFooter() {
         <nav className="flex flex-wrap gap-x-6 gap-y-2">
           {FOOTER_NAV.map((l) => (
             <Link key={l.to} to={l.to} className="hover:opacity-60 transition-opacity" style={{ color: "var(--hero-dark)" }}>
-              {l.label}
+              {t(l.key)}
             </Link>
           ))}
         </nav>
@@ -30,14 +32,14 @@ export function SiteFooter() {
         <div className="flex flex-wrap gap-x-6 gap-y-2">
           {links.map((l) => (
             <a
-              key={l.label}
+              key={l.href}
               href={l.href}
               target={l.href.startsWith("http") ? "_blank" : undefined}
               rel={l.href.startsWith("http") ? "noopener noreferrer" : undefined}
               className="underline hover:opacity-70 transition-opacity"
               style={{ color: "var(--hero-dark)" }}
             >
-              {l.label}
+              {L(l.label)}
             </a>
           ))}
         </div>

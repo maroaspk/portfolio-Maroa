@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { profile, getContactLinks } from "@/lib/profile";
+import { useI18n } from "@/lib/i18n";
 import { EASE } from "./editorial";
 
 /**
@@ -7,6 +8,7 @@ import { EASE } from "./editorial";
  * Used by the Contact page and by the "Let's connect" overlay so both stay in sync.
  */
 export function ContactLinks({ animate = true }: { animate?: boolean }) {
+  const { L } = useI18n();
   const links = getContactLinks();
   const extras = links.slice(1);
 
@@ -31,12 +33,12 @@ export function ContactLinks({ animate = true }: { animate?: boolean }) {
       >
         {extras.map((l) => (
           <li
-            key={l.label}
+            key={l.href}
             className="flex items-baseline justify-between py-4 text-sm"
             style={{ borderTop: "1px solid var(--hero-border)" }}
           >
             <span className="text-xs uppercase tracking-[3px]" style={{ opacity: 0.6 }}>
-              {l.label}
+              {L(l.label)}
             </span>
             <a
               href={l.href}
@@ -45,7 +47,7 @@ export function ContactLinks({ animate = true }: { animate?: boolean }) {
               className="underline hover:opacity-70 transition-opacity"
               style={{ color: "var(--hero-dark)" }}
             >
-              {l.display ?? l.href.replace(/^https?:\/\/(www\.)?/, "")}
+              {L(l.display) ?? l.href.replace(/^https?:\/\/(www\.)?/, "")}
             </a>
           </li>
         ))}

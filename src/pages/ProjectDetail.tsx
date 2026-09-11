@@ -11,6 +11,7 @@ import { projectThemeStyle } from "@/lib/color";
 import { asset } from "@/lib/assets";
 import { PillLink } from "@/components/ui/pill-link";
 import { TikTokEmbed } from "@/components/ui/tiktok-embed";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Project detail — keeps the template's split layout (sticky image left, copy right).
@@ -44,6 +45,7 @@ function BrandIndex({
   activeId: string | null;
   onSelect: (item: GalleryItem, id: string) => void;
 }) {
+  const { t, L } = useI18n();
   const [failedLogos, setFailedLogos] = useState<Record<string, boolean>>({});
   return (
     <div className="flex flex-wrap items-center gap-x-10 gap-y-4 py-6" style={{ borderBottom: RULE }}>
@@ -51,26 +53,27 @@ function BrandIndex({
         const id = getGalleryItemId(item, i);
         const isActive = activeId === id;
         const showLogo = item.logo && !failedLogos[id];
+        const title = L(item.title) ?? "";
         return (
           <button
             key={id}
             type="button"
             onClick={() => onSelect(item, id)}
-            aria-label={`View the ${item.title ?? ""} analogy`}
+            aria-label={`${t("project.viewAnalogy")}: ${title}`}
             className="transition-opacity hover:opacity-100"
             style={{ opacity: isActive ? 1 : 0.55, color: "var(--hero-dark)" }}
           >
             {showLogo ? (
               <img
                 src={asset(item.logo)}
-                alt={item.title ?? ""}
+                alt={title}
                 className="h-7 md:h-8 w-auto max-w-[150px] object-contain transition-[filter] duration-300"
                 style={{ filter: isActive ? "none" : "grayscale(1)" }}
                 onError={() => setFailedLogos((f) => ({ ...f, [id]: true }))}
               />
             ) : (
               <span className="text-xl md:text-2xl tracking-[0.02em]" style={{ fontFamily: "'Host Grotesk', sans-serif" }}>
-                {item.title}
+                {title}
               </span>
             )}
           </button>
@@ -82,6 +85,7 @@ function BrandIndex({
 
 const ProjectDetail = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t, L } = useI18n();
   const project = getProjectBySlug(slug || "");
   const { prev, next } = getAdjacentProjects(slug || "");
   const [activeImage, setActiveImage] = useState<string | undefined>(undefined);
@@ -108,10 +112,10 @@ const ProjectDetail = () => {
         <SiteHeader />
         <div className="text-center">
           <h1 className="text-2xl mb-4" style={{ color: "var(--hero-dark)" }}>
-            Project not found
+            {t("project.notFound")}
           </h1>
           <Link to="/projects" className="underline" style={{ color: "var(--hero-paragraphs)" }}>
-            Back to projects
+            {t("project.back")}
           </Link>
         </div>
       </div>
@@ -119,12 +123,11 @@ const ProjectDetail = () => {
   }
 
   const { w, h } = getProjectRatio(project);
-  const meta = [project.category, project.year].filter(Boolean).join(" · ");
-  const paragraphs = Array.isArray(project.description)
-    ? project.description
-    : project.description
-      ? [project.description]
-      : [];
+  const title = L(project.title) ?? "";
+  const meta = [L(project.category), project.year].filter(Boolean).join(" · ");
+  const paragraphs = (Array.isArray(project.description) ? project.description : project.description ? [project.description] : [])
+    .map((p) => L(p) ?? "")
+    .filter(Boolean);
 
   return (
     <motion.div
@@ -144,7 +147,7 @@ const ProjectDetail = () => {
 
       {/* Close / back on mobile */}
       <div className="absolute top-6 right-6 z-10 md:hidden">
-        <Link to="/projects" aria-label="Back to projects" className="hover:opacity-60 transition-opacity" style={{ color: "var(--hero-dark)" }}>
+        <Link to="/projects" aria-label={t("project.back")} className="hover:opacity-60 transition-opacity" style={{ color: "var(--hero-dark)" }}>
           <X size={28} strokeWidth={1.5} />
         </Link>
       </div>
@@ -153,18 +156,13 @@ const ProjectDetail = () => {
       <div className="flex-1 flex flex-col md:flex-row">
         {/* Left: main image */}
         <div className="w-full md:w-1/2 md:h-screen md:sticky md:top-0">
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.7 }}
-            className="w-full h-[50vh] md:h-full"
-          >
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7 }} className="w-full h-[50vh] md:h-full">
             <MediaOrPlaceholder
               key={activeImage ?? project.image}
               src={activeImage ?? project.image}
-              alt={project.title}
+              alt={title}
               aspectRatio={`${w}/${h}`}
-              label={project.audio ? "Audio" : "Project image"}
+              label={project.audio ? t("project.audio") : t("project.image")}
               logo={project.logo}
               className="h-full"
               style={{ aspectRatio: "auto", height: "100%", backgroundColor: "var(--project-surface, rgba(18,18,17,0.04))" }}
@@ -176,9 +174,11 @@ const ProjectDetail = () => {
         {/* Right: copy */}
         <div className="w-full md:w-1/2 flex flex-col justify-between px-8 md:px-14 lg:px-20 py-12 md:py-16 md:pt-28">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }}>
-            <Eyebrow className="mb-6" tone="accent">{meta}</Eyebrow>
+            <Eyebrow className="mb-6" tone="accent">
+              {meta}
+            </Eyebrow>
             <h1 className="text-3xl md:text-4xl mb-6" style={{ color: "var(--hero-dark)", lineHeight: 1.15 }}>
-              {project.title}
+              {title}
             </h1>
 
             {project.award && (
@@ -188,7 +188,7 @@ const ProjectDetail = () => {
               >
                 <span aria-hidden="true" style={{ display: "inline-block", width: 12, height: 1, backgroundColor: "currentColor" }} />
                 <span>
-                  Awarded · {project.award}
+                  {t("project.awarded")} · {L(project.award)}
                   {project.awardCertificate && (
                     <>
                       {" · "}
@@ -198,7 +198,7 @@ const ProjectDetail = () => {
                         rel="noopener noreferrer"
                         className="underline hover:opacity-70 transition-opacity"
                       >
-                        View certificate
+                        {t("project.viewCertificate")}
                       </a>
                     </>
                   )}
@@ -217,7 +217,9 @@ const ProjectDetail = () => {
             {/* Brand index (e.g. one analogy per brand) */}
             {project.brandIndex && project.gallery && project.gallery.length > 0 && (
               <div className="mb-12" style={{ borderTop: RULE }}>
-                <Eyebrow className="pt-6" tone="accent">Select a brand</Eyebrow>
+                <Eyebrow className="pt-6" tone="accent">
+                  {t("project.selectBrand")}
+                </Eyebrow>
                 <BrandIndex items={project.gallery} activeId={activeId} onSelect={handleSelect} />
               </div>
             )}
@@ -227,12 +229,12 @@ const ProjectDetail = () => {
               <div className="flex flex-wrap gap-3 mb-12">
                 {project.document && (
                   <PillLink to={`/projects/${project.slug}/read`} tone="accent" size="sm">
-                    Read the full project
+                    {t("project.readFull")}
                   </PillLink>
                 )}
                 {project.links?.map((l) => (
                   <PillLink key={l.href} href={l.href} external tone="accent" size="sm">
-                    {l.label}
+                    {L(l.label)}
                   </PillLink>
                 ))}
               </div>
@@ -240,18 +242,22 @@ const ProjectDetail = () => {
 
             {/* Facts */}
             <dl className="text-sm" style={{ borderTop: RULE }}>
-              {project.role && <Fact label="Role" value={project.role} />}
-              {project.context && <Fact label="Context" value={project.context} />}
-              {(project.period || project.year) && <Fact label="Date" value={project.period ?? project.year!} />}
-              {project.tools && project.tools.length > 0 && <Fact label="Tools" value={project.tools.join(", ")} />}
+              {project.role && <Fact label={t("project.role")} value={L(project.role) ?? ""} />}
+              {project.context && <Fact label={t("project.context")} value={L(project.context) ?? ""} />}
+              {(project.period || project.year) && <Fact label={t("project.date")} value={L(project.period) ?? project.year ?? ""} />}
+              {project.tools && project.tools.length > 0 && (
+                <Fact label={t("project.tools")} value={project.tools.map((x) => L(x)).join(", ")} />
+              )}
             </dl>
 
             {/* Optional audio (e.g. radio ad) */}
             {project.audio && (
               <div className="mt-12">
-                <Eyebrow className="mb-4" tone="accent">Listen</Eyebrow>
+                <Eyebrow className="mb-4" tone="accent">
+                  {t("project.listen")}
+                </Eyebrow>
                 <audio controls preload="metadata" src={asset(project.audio)} className="w-full" style={{ maxWidth: 460 }}>
-                  Your browser does not support the audio element.
+                  {t("project.audioUnsupported")}
                 </audio>
               </div>
             )}
@@ -259,7 +265,9 @@ const ProjectDetail = () => {
             {/* TikTok videos */}
             {project.videos && project.videos.length > 0 && (
               <div className="mt-14">
-                <Eyebrow className="mb-6" tone="accent">Videos</Eyebrow>
+                <Eyebrow className="mb-6" tone="accent">
+                  {t("project.videos")}
+                </Eyebrow>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {project.videos.map((url) => (
                     <TikTokEmbed key={url} url={url} />
@@ -271,33 +279,37 @@ const ProjectDetail = () => {
             {/* Optional gallery with captions */}
             {project.gallery && project.gallery.length > 0 && (
               <div className="mt-14 flex flex-col gap-12">
-                {project.gallery.map((item, i) => (
-                  <FadeUp key={item.src} delay={0.05}>
-                    <div id={`gallery-${getGalleryItemId(item, i)}`} style={{ scrollMarginTop: 96 }} />
-                    <img src={asset(item.src)} alt={item.title ?? `${project.title} — ${i + 1}`} loading="lazy" className="w-full object-cover" />
-                    {(item.title || item.caption) && (
-                      <div className="mt-4" style={{ maxWidth: 460 }}>
-                        {item.title && (
-                          <p className="text-sm mb-2" style={{ color: "var(--hero-dark)" }}>
-                            {item.title}
-                          </p>
-                        )}
-                        {item.caption && <p className="text-sm leading-relaxed">{item.caption}</p>}
-                      </div>
-                    )}
-                  </FadeUp>
-                ))}
+                {project.gallery.map((item, i) => {
+                  const itemTitle = L(item.title);
+                  const caption = L(item.caption);
+                  return (
+                    <FadeUp key={item.src} delay={0.05}>
+                      <div id={`gallery-${getGalleryItemId(item, i)}`} style={{ scrollMarginTop: 96 }} />
+                      <img src={asset(item.src)} alt={itemTitle ?? `${title} — ${i + 1}`} loading="lazy" className="w-full object-cover" />
+                      {(itemTitle || caption) && (
+                        <div className="mt-4" style={{ maxWidth: 460 }}>
+                          {itemTitle && (
+                            <p className="text-sm mb-2" style={{ color: "var(--hero-dark)" }}>
+                              {itemTitle}
+                            </p>
+                          )}
+                          {caption && <p className="text-sm leading-relaxed">{caption}</p>}
+                        </div>
+                      )}
+                    </FadeUp>
+                  );
+                })}
               </div>
             )}
 
             <p className="mt-14 text-sm">
-              Interested in this project?{" "}
+              {t("project.interested")}{" "}
               <a
                 href={`mailto:${profile.contact.email}`}
                 className="underline hover:opacity-70 transition-opacity"
                 style={{ color: "var(--hero-dark)", textDecorationColor: "var(--project-accent, currentColor)" }}
               >
-                Get in touch
+                {t("project.getInTouch")}
               </a>
               .
             </p>
@@ -306,29 +318,27 @@ const ProjectDetail = () => {
           {/* Prev / Next */}
           <div className="mt-16 pt-8 flex justify-between items-center gap-6" style={{ borderTop: RULE }}>
             {prev ? (
-              <Link
-                to={`/projects/${prev.slug}`}
-                className="inline-flex items-center gap-3 text-sm tracking-wide hover:opacity-70 transition-opacity group"
-              >
+              <Link to={`/projects/${prev.slug}`} className="inline-flex items-center gap-3 text-sm tracking-wide hover:opacity-70 transition-opacity group">
                 <ArrowLeft size={16} className="shrink-0 group-hover:-translate-x-1 transition-transform" />
                 <span>
-                  <span className="block text-xs uppercase tracking-widest mb-1" style={LABEL_STYLE}>Previous</span>
-                  <span style={{ color: "var(--hero-dark)" }}>{prev.title}</span>
+                  <span className="block text-xs uppercase tracking-widest mb-1" style={LABEL_STYLE}>
+                    {t("project.previous")}
+                  </span>
+                  <span style={{ color: "var(--hero-dark)" }}>{L(prev.title)}</span>
                 </span>
               </Link>
             ) : (
               <Link to="/projects" className="text-sm underline hover:opacity-70 transition-opacity" style={{ color: "var(--hero-dark)" }}>
-                All projects
+                {t("project.all")}
               </Link>
             )}
             {next ? (
-              <Link
-                to={`/projects/${next.slug}`}
-                className="inline-flex items-center gap-3 text-sm tracking-wide hover:opacity-70 transition-opacity text-right group"
-              >
+              <Link to={`/projects/${next.slug}`} className="inline-flex items-center gap-3 text-sm tracking-wide hover:opacity-70 transition-opacity text-right group">
                 <span>
-                  <span className="block text-xs uppercase tracking-widest mb-1" style={LABEL_STYLE}>Next</span>
-                  <span style={{ color: "var(--hero-dark)" }}>{next.title}</span>
+                  <span className="block text-xs uppercase tracking-widest mb-1" style={LABEL_STYLE}>
+                    {t("project.next")}
+                  </span>
+                  <span style={{ color: "var(--hero-dark)" }}>{L(next.title)}</span>
                 </span>
                 <ArrowRight size={16} className="shrink-0 group-hover:translate-x-1 transition-transform" />
               </Link>

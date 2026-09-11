@@ -2,6 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { useEffect, useId, useRef } from "react";
 import { ContactLinks } from "./contact-links";
+import { useI18n } from "@/lib/i18n";
 
 interface ContactOverlayProps {
   open: boolean;
@@ -16,6 +17,7 @@ export function ContactOverlay({ open, onClose }: ContactOverlayProps) {
   const closeBtnRef = useRef<HTMLButtonElement>(null);
   const previousFocus = useRef<HTMLElement | null>(null);
   const uid = useId();
+  const { t } = useI18n();
 
   useEffect(() => {
     if (!open) return;
@@ -51,7 +53,7 @@ export function ContactOverlay({ open, onClose }: ContactOverlayProps) {
           <button
             ref={closeBtnRef}
             onClick={onClose}
-            aria-label="Close contact"
+            aria-label={t("contact.close")}
             className="absolute top-8 right-8 hover:opacity-60 transition-opacity"
             style={{ color: "var(--hero-dark)" }}
           >
@@ -66,14 +68,14 @@ export function ContactOverlay({ open, onClose }: ContactOverlayProps) {
             style={{ fontFamily: "'Host Grotesk', sans-serif" }}
           >
             <p className="text-xs uppercase tracking-[3px] mb-6" style={{ color: "var(--hero-paragraphs)", opacity: 0.6 }}>
-              Contact
+              {t("contact.eyebrow")}
             </p>
             <h2
               id={`${uid}-title`}
               className="text-3xl md:text-4xl mb-10"
               style={{ fontFamily: "'Host Grotesk', sans-serif", color: "var(--hero-dark)", lineHeight: 1.15 }}
             >
-              Let's connect
+              {t("hero.cta")}
             </h2>
 
             <ContactLinks />

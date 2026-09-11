@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Embeds a public TikTok video from its URL using TikTok's official embed script.
@@ -19,6 +20,7 @@ function loadScript() {
 }
 
 export function TikTokEmbed({ url }: { url: string }) {
+  const { t } = useI18n();
   const id = url.match(/video\/(\d+)/)?.[1];
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export function TikTokEmbed({ url }: { url: string }) {
       >
         <section>
           <a href={url} target="_blank" rel="noopener noreferrer" className="underline text-sm" style={{ color: "var(--hero-dark)" }}>
-            Watch on TikTok
+            {t("project.watchOnTikTok")}
           </a>
         </section>
       </blockquote>

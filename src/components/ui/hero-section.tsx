@@ -10,6 +10,7 @@ import {
 import { ContactOverlay } from "./contact-overlay";
 import { profile } from "@/lib/profile";
 import { asset } from "@/lib/assets";
+import { useI18n } from "@/lib/i18n";
 
 // ---------------------------------------------------------------------------
 // Image data — aspect ratios from original CDN, CSS offsets from source
@@ -130,6 +131,7 @@ function HeroImage({
 // ---------------------------------------------------------------------------
 
 export function HeroSection({ gridInView = false }: { gridInView?: boolean }) {
+  const { t, L } = useI18n();
   const sectionRef = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
 
@@ -357,7 +359,7 @@ export function HeroSection({ gridInView = false }: { gridInView?: boolean }) {
                   fontFamily: "'Host Grotesk', sans-serif",
                 }}
               >
-                {profile.tagline}
+                {L(profile.tagline)}
               </h5>
 
               {/* One-line intro */}
@@ -366,7 +368,7 @@ export function HeroSection({ gridInView = false }: { gridInView?: boolean }) {
                   className="mb-[26px] md:mb-[30px] lg:mb-[36px] -mt-[10px] md:-mt-[12px] max-w-[390px] md:max-w-[450px] text-[15px] md:text-[16px] leading-[160%]"
                   style={{ color: "var(--hero-paragraphs)", fontFamily: "'Host Grotesk', sans-serif" }}
                 >
-                  {profile.heroLine}
+                  {L(profile.heroLine)}
                 </p>
               )}
 
@@ -389,7 +391,7 @@ export function HeroSection({ gridInView = false }: { gridInView?: boolean }) {
                 onMouseEnter={() => setButtonHovered(true)}
                 onMouseLeave={() => setButtonHovered(false)}
               >
-                Let's connect
+                {t("hero.cta")}
               </button>
             </motion.div>
           </div>
@@ -513,7 +515,7 @@ export function HeroSection({ gridInView = false }: { gridInView?: boolean }) {
                 repeat: Infinity,
               }}
             >
-              Scroll
+              {t("hero.scroll")}
             </motion.span>
           </motion.div>
         </div>

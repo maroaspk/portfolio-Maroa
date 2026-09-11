@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import type { CSSProperties, ReactNode } from "react";
 import { asset } from "@/lib/assets";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Small editorial primitives shared by About, Projects, Certificates and Contact.
@@ -96,7 +97,7 @@ export function Rule({ className = "" }: { className?: string }) {
  * Warm off-white block with a faint label — no icons, no gradients.
  */
 export function Placeholder({
-  label = "Coming soon",
+  label,
   aspectRatio = "4/5",
   className = "",
   style,
@@ -111,6 +112,8 @@ export function Placeholder({
   logo?: string;
   logoAlt?: string;
 }) {
+  const { t } = useI18n();
+  const text = label ?? t("placeholder.comingSoon");
   return (
     <div
       className={`w-full flex items-center justify-center ${className}`}
@@ -128,7 +131,7 @@ export function Placeholder({
           className="text-[11px] uppercase tracking-[3px]"
           style={{ color: "var(--hero-dark)", opacity: 0.35 }}
         >
-          {label}
+          {text}
         </span>
       )}
     </div>

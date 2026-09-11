@@ -7,10 +7,12 @@ import { SiteHeader } from "@/components/ui/site-header";
 import { SiteFooter } from "@/components/ui/site-footer";
 import { FadeUp, SectionHeading } from "@/components/ui/editorial";
 import { getFeaturedProjects } from "@/lib/projects";
+import { useI18n } from "@/lib/i18n";
 
 const Index = () => {
   const gridRef = useRef<HTMLDivElement>(null);
   const gridInView = useInView(gridRef, { margin: "100% 0px 100% 0px" });
+  const { t } = useI18n();
 
   return (
     <div
@@ -28,13 +30,13 @@ const Index = () => {
 
       <div ref={gridRef} className="w-full" style={{ maxWidth: 1365, margin: "4vw auto 0" }}>
         <FadeUp className="px-5 mb-12 md:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
-          <SectionHeading as="h2" eyebrow="Portfolio" title="Selected projects" />
+          <SectionHeading as="h2" eyebrow={t("home.eyebrow")} title={t("home.title")} />
           <Link
             to="/projects"
             className="text-sm underline hover:opacity-70 transition-opacity md:mb-2"
             style={{ color: "var(--hero-dark)" }}
           >
-            View all projects
+            {t("home.viewAll")}
           </Link>
         </FadeUp>
         <ProjectGrid projects={getFeaturedProjects()} />

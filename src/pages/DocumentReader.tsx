@@ -7,6 +7,7 @@ import { Eyebrow } from "@/components/ui/editorial";
 import { getProjectBySlug } from "@/lib/projects";
 import { projectThemeStyle } from "@/lib/color";
 import { asset } from "@/lib/assets";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Read-only document viewer. Pages are pre-rendered, watermarked images (no PDF is
@@ -15,6 +16,7 @@ import { asset } from "@/lib/assets";
  */
 const DocumentReader = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { t, L } = useI18n();
   const project = getProjectBySlug(slug || "");
   const doc = project?.document;
   const [current, setCurrent] = useState(1);
@@ -50,13 +52,18 @@ const DocumentReader = () => {
       <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "var(--hero-light)", fontFamily: "'Host Grotesk', sans-serif" }}>
         <SiteHeader />
         <div className="text-center">
-          <h1 className="text-2xl mb-4" style={{ color: "var(--hero-dark)" }}>Document not found</h1>
-          <Link to="/projects" className="underline" style={{ color: "var(--hero-paragraphs)" }}>Back to projects</Link>
+          <h1 className="text-2xl mb-4" style={{ color: "var(--hero-dark)" }}>
+            {t("reader.notFound")}
+          </h1>
+          <Link to="/projects" className="underline" style={{ color: "var(--hero-paragraphs)" }}>
+            {t("project.back")}
+          </Link>
         </div>
       </div>
     );
   }
 
+  const docTitle = L(doc.title) ?? L(project.title) ?? "";
   const pageSrc = (n: number) => asset(`${doc.path}/page-${String(n).padStart(3, "0")}.jpg`);
 
   return (
@@ -87,17 +94,17 @@ const DocumentReader = () => {
               className="inline-flex items-center gap-2 text-xs uppercase tracking-[2px] hover:opacity-70 transition-opacity mb-6"
               style={{ color: "var(--project-accent, var(--hero-dark))" }}
             >
-              <ArrowLeft size={14} /> Back to the project
+              <ArrowLeft size={14} /> {t("reader.back")}
             </Link>
             <h1 className="text-3xl md:text-4xl" style={{ color: "var(--hero-dark)", lineHeight: 1.15 }}>
-              {doc.title ?? project.title}
+              {docTitle}
             </h1>
             <p className="text-sm mt-3" style={{ maxWidth: 520 }}>
-              {doc.note ?? "Read-only view. This document is shared for consultation and may not be reproduced."}
+              {L(doc.note) ?? t("reader.note")}
             </p>
           </div>
           <Eyebrow tone="accent" className="whitespace-nowrap md:pb-2">
-            Page {current} / {doc.pages}
+            {t("reader.page")} {current} / {doc.pages}
           </Eyebrow>
         </div>
 
@@ -115,7 +122,7 @@ const DocumentReader = () => {
             >
               <img
                 src={pageSrc(n)}
-                alt={`${doc.title ?? project.title} — page ${n}`}
+                alt={`${docTitle} — ${t("reader.page").toLowerCase()} ${n}`}
                 loading={n <= 2 ? "eager" : "lazy"}
                 decoding="async"
                 draggable={false}
@@ -127,7 +134,7 @@ const DocumentReader = () => {
         </div>
 
         <p className="mt-10 text-xs uppercase tracking-[2px]" style={{ opacity: 0.5 }}>
-          © {new Date().getFullYear()} {doc.authors ?? "Maroa González Rosdevall"} · All rights reserved
+          © {new Date().getFullYear()} {doc.authors ?? "Maroa González Rosdevall"} · {t("reader.rights")}
         </p>
       </div>
     </motion.div>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { getProjectRatio, type Project } from "@/lib/projects";
 import { MediaOrPlaceholder, EASE } from "./editorial";
 import { projectThemeStyle } from "@/lib/color";
+import { useI18n } from "@/lib/i18n";
 
 /**
  * Three-column editorial grid, generalised from the template's photo grid.
@@ -25,13 +26,15 @@ function FadeUpOnScroll({ children, delay }: { children: React.ReactNode; delay:
 }
 
 function ProjectCard({ project }: { project: Project }) {
+  const { t, L } = useI18n();
   const { w, h } = getProjectRatio(project);
+  const title = L(project.title) ?? "";
   const media = (
     <MediaOrPlaceholder
       src={project.image}
-      alt={project.title}
+      alt={title}
       aspectRatio={`${w}/${h}`}
-      label={project.audio ? "Audio" : undefined}
+      label={project.audio ? t("project.audio") : undefined}
       logo={project.logo}
       className="hover:opacity-90 transition-opacity duration-300"
       style={{ maxWidth: 415 }}
@@ -42,16 +45,16 @@ function ProjectCard({ project }: { project: Project }) {
     <div className="mt-4 text-sm leading-snug" style={{ maxWidth: 415 }}>
       {project.award && (
         <p className="mb-2 text-[11px] uppercase tracking-[2px]" style={{ color: "var(--project-accent, var(--hero-red))" }}>
-          Awarded
+          {t("project.awarded")}
         </p>
       )}
-      <p style={{ color: "var(--hero-dark)" }}>{project.title}</p>
+      <p style={{ color: "var(--hero-dark)" }}>{title}</p>
       {/* Category label picks up the project accent on hover */}
       <p
         className="mt-1 text-xs uppercase tracking-[2px] transition-colors duration-300 group-hover:text-(--project-accent)"
         style={{ opacity: 0.55 }}
       >
-        {project.category}
+        {L(project.category)}
         {project.year ? ` · ${project.year}` : ""}
       </p>
     </div>
@@ -59,7 +62,7 @@ function ProjectCard({ project }: { project: Project }) {
 
   if (project.placeholder) {
     return (
-      <div className="block" aria-label={`${project.title}`}>
+      <div className="block" aria-label={title}>
         {media}
         {caption}
       </div>

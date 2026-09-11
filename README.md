@@ -21,6 +21,8 @@ npm run build    # genera dist/
 
 Todo el contenido vive en `src/lib/`. No hace falta tocar componentes para añadir cosas.
 
+**Idiomas:** la web es bilingüe (inglés y español) con un conmutador EN / ES en la cabecera. Cualquier texto de contenido puede ser una cadena simple (igual en ambos idiomas) o `{ en: "…", es: "…" }`. Los textos de interfaz están en el diccionario `UI` de `src/lib/i18n.tsx`. La elección se guarda en el navegador; la primera visita sigue el idioma del navegador.
+
 | Fichero | Qué contiene |
 | --- | --- |
 | `src/lib/profile.ts` | Nombre, tagline, frase del hero, foto de About, intro, experiencia, formación, skills, idiomas, email, LinkedIn y otras redes. |
@@ -37,7 +39,7 @@ Todo el contenido vive en `src/lib/`. No hace falta tocar componentes para añad
 - **Iniciales del logo:** `profile.initials`.
 - **Tokens de diseño (colores, fuente):** `src/index.css` (`--hero-dark`, `--hero-light`, `--hero-paragraphs`, `--hero-border`, `--hero-red`).
 
-Las imágenes viven en `public/`: `public/media` (retrato y CV), `public/projects` (proyectos, audio, `logos/` y `misako/`) y `public/certificates` (certificados). Se referencian como `/projects/archivo.jpg`. Todo el texto de la web está en inglés.
+Las imágenes viven en `public/`: `public/media` (retrato y CV), `public/projects` (proyectos, audio, `logos/` y `misako/`) y `public/certificates` (certificados). Se referencian como `/projects/archivo.jpg`.
 
 ## Publicar en GitHub Pages
 
