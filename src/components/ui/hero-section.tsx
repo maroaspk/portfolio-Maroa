@@ -9,7 +9,7 @@ import {
 } from "framer-motion";
 import { ContactOverlay } from "./contact-overlay";
 import { profile } from "@/lib/profile";
-import { asset } from "@/lib/assets";
+import { SmartImage } from "./smart-image";
 import { useI18n } from "@/lib/i18n";
 
 // ---------------------------------------------------------------------------
@@ -115,11 +115,11 @@ function HeroImage({
   style?: React.CSSProperties;
 }) {
   return (
-    <img
+    <SmartImage
       src={src}
       alt=""
-      aria-hidden="true"
       loading="eager"
+      sizes="(min-width: 992px) 20vw, (min-width: 768px) 30vw, 40vw"
       className={`object-cover rounded-sm ${className ?? ""}`}
       style={{ aspectRatio: `${w}/${h}`, ...style, maxWidth: "none" }}
     />
@@ -435,7 +435,7 @@ export function HeroSection({ gridInView = false }: { gridInView?: boolean }) {
                     <HeroImage
                       w={img.w}
                       h={img.h}
-                      src={asset(HERO_PHOTOS[img.id - 1])}
+                      src={HERO_PHOTOS[img.id - 1]}
                       className="w-[40vw] md:w-[30vw] lg:w-[20vw]"
                       style={{
                         maxWidth: "none",

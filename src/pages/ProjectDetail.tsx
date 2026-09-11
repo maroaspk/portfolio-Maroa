@@ -12,6 +12,7 @@ import { asset } from "@/lib/assets";
 import { PillLink } from "@/components/ui/pill-link";
 import { TikTokEmbed } from "@/components/ui/tiktok-embed";
 import { useI18n } from "@/lib/i18n";
+import { SmartImage } from "@/components/ui/smart-image";
 
 /**
  * Project detail — keeps the template's split layout (sticky image left, copy right).
@@ -164,6 +165,8 @@ const ProjectDetail = () => {
               aspectRatio={`${w}/${h}`}
               label={project.audio ? t("project.audio") : t("project.image")}
               logo={project.logo}
+              sizes="(min-width: 768px) 50vw, 100vw"
+              fetchPriority="high"
               className="h-full"
               style={{ aspectRatio: "auto", height: "100%", backgroundColor: "var(--project-surface, rgba(18,18,17,0.04))" }}
               loading="eager"
@@ -285,7 +288,7 @@ const ProjectDetail = () => {
                   return (
                     <FadeUp key={item.src} delay={0.05}>
                       <div id={`gallery-${getGalleryItemId(item, i)}`} style={{ scrollMarginTop: 96 }} />
-                      <img src={asset(item.src)} alt={itemTitle ?? `${title} — ${i + 1}`} loading="lazy" className="w-full object-cover" />
+                      <SmartImage src={item.src} alt={itemTitle ?? `${title} — ${i + 1}`} sizes="(min-width: 768px) 40vw, 100vw" className="w-full object-cover" />
                       {(itemTitle || caption) && (
                         <div className="mt-4" style={{ maxWidth: 460 }}>
                           {itemTitle && (

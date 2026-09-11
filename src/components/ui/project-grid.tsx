@@ -36,6 +36,7 @@ function ProjectCard({ project }: { project: Project }) {
       aspectRatio={`${w}/${h}`}
       label={project.audio ? t("project.audio") : undefined}
       logo={project.logo}
+      sizes="(min-width: 1024px) 415px, (min-width: 768px) 50vw, 100vw"
       className="hover:opacity-90 transition-opacity duration-300"
       style={{ maxWidth: 415 }}
     />

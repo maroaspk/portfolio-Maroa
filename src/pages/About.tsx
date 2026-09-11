@@ -76,7 +76,7 @@ const About = () => {
       {/* Intro — same two-column composition as the template About page */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24">
         <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
-          <MediaOrPlaceholder src={profile.portrait} alt={profile.name} aspectRatio="2/3" label={t("about.portrait")} loading="eager" />
+          <MediaOrPlaceholder src={profile.portrait} alt={profile.name} aspectRatio="2/3" label={t("about.portrait")} loading="eager" fetchPriority="high" sizes="(min-width: 768px) 40vw, 100vw" />
         </motion.div>
 
         <motion.div

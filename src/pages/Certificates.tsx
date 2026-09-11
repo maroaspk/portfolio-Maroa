@@ -13,7 +13,7 @@ function CertificateRow({ cert, index }: { cert: Certificate; index: number }) {
   const title = L(cert.title) ?? "";
   const content = (
     <div className="grid grid-cols-[96px_1fr] md:grid-cols-[160px_1fr_auto_auto] gap-6 md:gap-10 items-center py-8">
-      <MediaOrPlaceholder src={cert.image} alt={title} aspectRatio="4/3" label="" />
+      <MediaOrPlaceholder src={cert.image} alt={title} aspectRatio="4/3" label="" sizes="160px" />
 
       <div className="min-w-0">
         <p className="text-lg" style={{ color: "var(--hero-dark)", lineHeight: 1.3 }}>
@@ -72,7 +72,7 @@ function FeaturedAward({ cert }: { cert: Certificate }) {
         className="grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-8 md:gap-14 p-6 md:p-10"
         style={{ boxShadow: "inset 0 0 0 1px var(--hero-border)", backgroundColor: "rgba(155,43,52,0.04)" }}
       >
-        <MediaOrPlaceholder src={cert.image} alt={title} aspectRatio="1242/1755" label="" loading="eager" />
+        <MediaOrPlaceholder src={cert.image} alt={title} aspectRatio="1242/1755" label="" loading="eager" sizes="(min-width: 768px) 35vw, 100vw" />
         <div className="flex flex-col justify-center">
           <p className="inline-flex items-center gap-3 text-xs uppercase tracking-[3px] mb-6" style={{ color: "var(--hero-red)" }}>
             <span aria-hidden="true" style={{ display: "inline-block", width: 24, height: 1, backgroundColor: "currentColor" }} />

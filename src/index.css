@@ -195,6 +195,9 @@ All colors MUST be HSL.
   body {
     @apply text-foreground;
     background-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 }
 

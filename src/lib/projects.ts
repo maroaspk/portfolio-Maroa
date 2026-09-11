@@ -226,7 +226,7 @@ export const projects: Project[] = [
     ],
     role: { en: "Concept, script, voice and editing (with Lucía Sánchez)", es: "Concepto, guion, voz y edición (con Lucía Sánchez)" },
     logo: "/projects/logos/tinder.svg",
-    audio: "/projects/tinder-radio-ad.wav",
+    audio: "/projects/tinder-radio-ad.mp3",
     featured: true,
   },
   {

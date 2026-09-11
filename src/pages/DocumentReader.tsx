@@ -64,7 +64,7 @@ const DocumentReader = () => {
   }
 
   const docTitle = L(doc.title) ?? L(project.title) ?? "";
-  const pageSrc = (n: number) => asset(`${doc.path}/page-${String(n).padStart(3, "0")}.jpg`);
+  const pageBase = (n: number) => `${doc.path}/page-${String(n).padStart(3, "0")}`;
 
   return (
     <motion.div
@@ -120,15 +120,18 @@ const DocumentReader = () => {
               className="w-full"
               style={{ boxShadow: "0 1px 0 var(--project-rule, var(--hero-border)), 0 0 0 1px var(--project-rule, var(--hero-border))" }}
             >
-              <img
-                src={pageSrc(n)}
-                alt={`${docTitle} — ${t("reader.page").toLowerCase()} ${n}`}
-                loading={n <= 2 ? "eager" : "lazy"}
-                decoding="async"
-                draggable={false}
-                className="w-full h-auto block pointer-events-none"
-                style={{ aspectRatio: `${doc.w ?? 1200}/${doc.h ?? 849}` }}
-              />
+              <picture>
+                <source type="image/webp" srcSet={asset(`${pageBase(n)}.webp`)} />
+                <img
+                  src={asset(`${pageBase(n)}.jpg`)}
+                  alt={`${docTitle} — ${t("reader.page").toLowerCase()} ${n}`}
+                  loading={n <= 2 ? "eager" : "lazy"}
+                  decoding="async"
+                  draggable={false}
+                  className="w-full h-auto block pointer-events-none"
+                  style={{ aspectRatio: `${doc.w ?? 1200}/${doc.h ?? 849}` }}
+                />
+              </picture>
             </div>
           ))}
         </div>

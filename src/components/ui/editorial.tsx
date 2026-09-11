@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import type { CSSProperties, ReactNode } from "react";
 import { asset } from "@/lib/assets";
+import { SmartImage } from "./smart-image";
 import { useI18n } from "@/lib/i18n";
 
 /**
@@ -148,6 +149,8 @@ export function MediaOrPlaceholder({
   style,
   loading = "lazy",
   logo,
+  sizes,
+  fetchPriority,
 }: {
   src?: string;
   alt: string;
@@ -158,15 +161,20 @@ export function MediaOrPlaceholder({
   loading?: "lazy" | "eager";
   /** Shown centred on the placeholder when there is no `src`. */
   logo?: string;
+  /** Layout width hint for responsive variants, e.g. "(min-width: 768px) 50vw, 100vw". */
+  sizes?: string;
+  fetchPriority?: "high" | "low" | "auto";
 }) {
   if (!src) {
     return <Placeholder aspectRatio={aspectRatio} label={label} className={className} style={style} logo={logo} logoAlt={alt} />;
   }
   return (
-    <img
-      src={asset(src)}
+    <SmartImage
+      src={src}
       alt={alt}
       loading={loading}
+      sizes={sizes}
+      fetchPriority={fetchPriority}
       className={`w-full object-cover ${className}`}
       style={{ aspectRatio, ...style }}
     />
