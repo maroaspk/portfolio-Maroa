@@ -11,6 +11,9 @@
  *   - `audio`      → an audio player on the detail page (e.g. a radio ad)
  *   - `award`      → short label (e.g. "Winning proposal · UIC Barcelona") highlighted in the grid and detail
  *   - `awardCertificate` → link to the award document (e.g. a file in /public/certificates)
+ *   - `document`   → read-only viewer of a long document (pre-rendered, watermarked page images in /public)
+ *   - `links`      → external links (profile, site…) shown as pill buttons on the detail page
+ *   - `videos`     → TikTok video URLs embedded on the detail page
  *   - `accent`     → one hex colour taken from the project's identity; the detail page tints its background
  *                    with it and uses it for labels, rules and link underlines (see src/lib/color.ts)
  *   - `featured`   → appears on the home page grid
@@ -27,6 +30,23 @@ export interface GalleryItem {
   id?: string;
   /** Brand logo (file in /public/projects/logos). Without it the brand name is shown as a wordmark. */
   logo?: string;
+}
+
+export interface ProjectDocument {
+  /** Folder in /public with page-001.jpg, page-002.jpg… */
+  path: string;
+  pages: number;
+  title?: string;
+  note?: string;
+  authors?: string;
+  /** Intrinsic page size, for layout before images load. */
+  w?: number;
+  h?: number;
+}
+
+export interface ProjectLink {
+  label: string;
+  href: string;
 }
 
 export interface Project {
@@ -53,6 +73,10 @@ export interface Project {
   awardCertificate?: string;
   brandIndex?: boolean;
   accent?: string;
+  document?: ProjectDocument;
+  links?: ProjectLink[];
+  /** TikTok video URLs, e.g. "https://www.tiktok.com/@sabesdepubli/video/7300000000000000000". */
+  videos?: string[];
   featured?: boolean;
   placeholder?: boolean;
 }
@@ -72,6 +96,15 @@ export const projects: Project[] = [
     ],
     role: "Co-author in a team of four: analysis, strategy, creative concept and action plan",
     tools: ["Brand strategy", "Market research", "Buyer personas", "Creative strategy", "Campaign & event planning", "Budgeting & KPIs"],
+    document: {
+      path: "/projects/misako/doc",
+      pages: 139,
+      title: "Misako — a rebranding case · Full project",
+      note: "Read-only view of the complete Final Degree Project (139 pages). Shared for consultation only; the content may not be copied or reproduced.",
+      authors: "Ona Gangolells Huguet, Lucía Sánchez Jurado, Maroa González Rosdevall, Paula Navarro-Soto del Castillo",
+      w: 1200,
+      h: 849,
+    },
     image: "/projects/misako/misako-poster.jpg",
     w: 901,
     h: 1265,
@@ -130,6 +163,9 @@ export const projects: Project[] = [
     ],
     role: "Co-creator, content and social media",
     tools: ["TikTok", "Content creation", "Social media"],
+    links: [{ label: "Watch @sabesdepubli on TikTok", href: "https://www.tiktok.com/@sabesdepubli" }],
+    // Add TikTok video URLs here to embed them on the project page.
+    videos: [],
     image: "/projects/sabesdepubli.jpg",
     w: 1,
     h: 1,

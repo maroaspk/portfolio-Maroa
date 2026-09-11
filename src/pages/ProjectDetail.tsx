@@ -9,6 +9,8 @@ import { getProjectBySlug, getAdjacentProjects, getProjectRatio, getGalleryItemI
 import { profile } from "@/lib/profile";
 import { projectThemeStyle } from "@/lib/color";
 import { asset } from "@/lib/assets";
+import { PillLink } from "@/components/ui/pill-link";
+import { TikTokEmbed } from "@/components/ui/tiktok-embed";
 
 /**
  * Project detail — keeps the template's split layout (sticky image left, copy right).
@@ -220,6 +222,22 @@ const ProjectDetail = () => {
               </div>
             )}
 
+            {/* Document viewer / external links */}
+            {(project.document || (project.links && project.links.length > 0)) && (
+              <div className="flex flex-wrap gap-3 mb-12">
+                {project.document && (
+                  <PillLink to={`/projects/${project.slug}/read`} tone="accent" size="sm">
+                    Read the full project
+                  </PillLink>
+                )}
+                {project.links?.map((l) => (
+                  <PillLink key={l.href} href={l.href} external tone="accent" size="sm">
+                    {l.label}
+                  </PillLink>
+                ))}
+              </div>
+            )}
+
             {/* Facts */}
             <dl className="text-sm" style={{ borderTop: RULE }}>
               {project.role && <Fact label="Role" value={project.role} />}
@@ -235,6 +253,18 @@ const ProjectDetail = () => {
                 <audio controls preload="metadata" src={asset(project.audio)} className="w-full" style={{ maxWidth: 460 }}>
                   Your browser does not support the audio element.
                 </audio>
+              </div>
+            )}
+
+            {/* TikTok videos */}
+            {project.videos && project.videos.length > 0 && (
+              <div className="mt-14">
+                <Eyebrow className="mb-6" tone="accent">Videos</Eyebrow>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  {project.videos.map((url) => (
+                    <TikTokEmbed key={url} url={url} />
+                  ))}
+                </div>
               </div>
             )}
 

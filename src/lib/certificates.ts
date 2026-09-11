@@ -5,6 +5,7 @@
  *   - `date`  → free text, e.g. "December 2025"
  *   - `image` → thumbnail: put the file in /public/certificates and reference "/certificates/file.jpg"
  *   - `url`   → link to the certificate or a PDF in /public. Defaults to the image itself when omitted.
+ *   - `featured` + `description` → shown as a highlighted award block at the top of the page
  */
 
 export interface Certificate {
@@ -13,6 +14,8 @@ export interface Certificate {
   date?: string;
   image?: string;
   url?: string;
+  featured?: boolean;
+  description?: string;
 }
 
 export const certificates: Certificate[] = [
@@ -55,6 +58,9 @@ export const certificates: Certificate[] = [
     issuer: "Faculty of Communication Sciences · UIC Barcelona",
     date: "November 2025",
     image: "/certificates/uic-health-promotion-day-award.jpg",
+    featured: true,
+    description:
+      "Selected by the teaching and professional jury for its excellence, creativity and strategic rigour, within the Brand Management and Strategy course. The branding will be used officially in future editions of the event.",
   },
 ];
 

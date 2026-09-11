@@ -2,6 +2,7 @@ import { PageLayout } from "@/components/ui/page-layout";
 import { FadeUp, SectionHeading } from "@/components/ui/editorial";
 import { ContactLinks } from "@/components/ui/contact-links";
 import { profile } from "@/lib/profile";
+import { PillLink } from "@/components/ui/pill-link";
 import { asset } from "@/lib/assets";
 
 const Contact = () => {
@@ -18,17 +19,11 @@ const Contact = () => {
             {profile.location}
           </p>
           {profile.cv && (
-            <p className="mt-8 text-sm">
-              <a
-                href={asset(profile.cv)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline hover:opacity-70 transition-opacity"
-                style={{ color: "var(--hero-dark)" }}
-              >
-                Download CV (PDF)
-              </a>
-            </p>
+            <div className="mt-8">
+              <PillLink href={asset(profile.cv)} external size="sm">
+                Download CV
+              </PillLink>
+            </div>
           )}
         </FadeUp>
 

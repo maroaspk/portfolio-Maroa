@@ -3,6 +3,7 @@ import { PageLayout } from "@/components/ui/page-layout";
 import { FadeUp, MediaOrPlaceholder, Rule, SectionHeading } from "@/components/ui/editorial";
 import { certificates, getCertificateUrl, type Certificate } from "@/lib/certificates";
 import { asset } from "@/lib/assets";
+import { PillLink } from "@/components/ui/pill-link";
 
 /** One certificate row: thumbnail · name + issuer · date · link. New entries only need data. */
 function CertificateRow({ cert, index }: { cert: Certificate; index: number }) {
@@ -57,7 +58,51 @@ function CertificateRow({ cert, index }: { cert: Certificate; index: number }) {
   );
 }
 
+/** Highlighted award: larger image, red "Award" label, short description. */
+function FeaturedAward({ cert }: { cert: Certificate }) {
+  const url = asset(getCertificateUrl(cert));
+  return (
+    <FadeUp className="mb-16 md:mb-20">
+      <div
+        className="grid grid-cols-1 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] gap-8 md:gap-14 p-6 md:p-10"
+        style={{ boxShadow: "inset 0 0 0 1px var(--hero-border)", backgroundColor: "rgba(155,43,52,0.04)" }}
+      >
+        <MediaOrPlaceholder src={cert.image} alt={cert.title} aspectRatio="1242/1755" label="" loading="eager" />
+        <div className="flex flex-col justify-center">
+          <p className="inline-flex items-center gap-3 text-xs uppercase tracking-[3px] mb-6" style={{ color: "var(--hero-red)" }}>
+            <span aria-hidden="true" style={{ display: "inline-block", width: 24, height: 1, backgroundColor: "currentColor" }} />
+            Award
+          </p>
+          <h2 className="text-2xl md:text-3xl mb-4" style={{ color: "var(--hero-dark)", lineHeight: 1.15 }}>
+            {cert.title}
+          </h2>
+          <p className="text-sm" style={{ color: "var(--hero-dark)" }}>{cert.issuer}</p>
+          {cert.date && (
+            <p className="text-xs uppercase tracking-[2px] mt-2" style={{ opacity: 0.55 }}>
+              {cert.date}
+            </p>
+          )}
+          {cert.description && (
+            <p className="text-sm leading-relaxed mt-6" style={{ maxWidth: 460 }}>
+              {cert.description}
+            </p>
+          )}
+          {url && (
+            <div className="mt-8">
+              <PillLink href={url} external size="sm">
+                View certificate
+              </PillLink>
+            </div>
+          )}
+        </div>
+      </div>
+    </FadeUp>
+  );
+}
+
 const Certificates = () => {
+  const featured = certificates.filter((c) => c.featured);
+  const rest = certificates.filter((c) => !c.featured);
   return (
     <PageLayout>
       <FadeUp className="mb-12 md:mb-16">
@@ -67,7 +112,11 @@ const Certificates = () => {
         </p>
       </FadeUp>
 
-      {certificates.length === 0 ? (
+      {featured.map((c) => (
+        <FeaturedAward key={c.title} cert={c} />
+      ))}
+
+      {rest.length === 0 ? (
         <FadeUp>
           <Rule />
           <p className="py-10 text-sm" style={{ opacity: 0.6 }}>
@@ -76,7 +125,7 @@ const Certificates = () => {
         </FadeUp>
       ) : (
         <div>
-          {certificates.map((c, i) => (
+          {rest.map((c, i) => (
             <CertificateRow key={`${c.title}-${c.issuer}`} cert={c} index={i} />
           ))}
           <Rule />

@@ -4,6 +4,7 @@ import { PageLayout } from "@/components/ui/page-layout";
 import { FadeUp, Eyebrow, MediaOrPlaceholder, Rule } from "@/components/ui/editorial";
 import { profile } from "@/lib/profile";
 import { asset } from "@/lib/assets";
+import { PillLink } from "@/components/ui/pill-link";
 
 /**
  * Editorial CV row: small label on the left, content on the right.
@@ -115,18 +116,11 @@ const About = () => {
               {profile.contact.email}
             </a>
             {profile.cv && (
-              <p className="mt-6">
-                <a
-                  href={asset(profile.cv)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 uppercase tracking-[2px] text-xs hover:opacity-70 transition-opacity"
-                  style={{ color: "var(--hero-dark)" }}
-                >
-                  <span aria-hidden="true" style={{ display: "inline-block", width: 12, height: 1, backgroundColor: "currentColor" }} />
-                  Download CV (PDF)
-                </a>
-              </p>
+              <div className="mt-8">
+                <PillLink href={asset(profile.cv)} external>
+                  Download CV
+                </PillLink>
+              </div>
             )}
           </div>
         </motion.div>
